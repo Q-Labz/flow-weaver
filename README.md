@@ -38,6 +38,7 @@ The site uses `@netlify/vite-plugin-tanstack-start` so SSR and server functions 
 ```bash
 npx netlify login
 npx netlify init --manual
+npx netlify env:set FLOW_WEAVER_DATABASE_URL "<neon pooled url>" --secret
 npx netlify env:set DATABASE_URL "<neon pooled url>" --secret
 npx netlify env:set DATABASE_URL_DIRECT "<neon direct url>" --secret
 npx netlify env:set BETTER_AUTH_SECRET "<openssl rand -hex 32>" --secret
@@ -45,13 +46,16 @@ npx netlify env:set BETTER_AUTH_URL "https://<site>.netlify.app"
 npx netlify deploy --prod --build
 ```
 
+Production is at [flow-weaver.netlify.app](https://flow-weaver.netlify.app).
+
 Build settings in [`netlify.toml`](netlify.toml): `npm run build` → `dist/client`.
 
 ### Environment
 
 | Variable | Purpose |
 | --- | --- |
-| `DATABASE_URL` | Neon pooled connection (app queries) |
+| `FLOW_WEAVER_DATABASE_URL` | Preferred Neon pooled connection (survives Neon extension overrides) |
+| `DATABASE_URL` | Neon pooled connection fallback |
 | `DATABASE_URL_DIRECT` | Neon direct connection (Drizzle migrations) |
 | `BETTER_AUTH_URL` | Public origin, e.g. `http://127.0.0.1:43127` |
 | `BETTER_AUTH_SECRET` | Session signing secret (`openssl rand -hex 32`) |
@@ -63,7 +67,7 @@ Schema lives in [`src/db/schema.ts`](src/db/schema.ts). SQL migrations are in [`
 
 This environment was bootstrapped with a [claimable Neon](https://neon.new) database. Unclaimed databases expire after 72 hours. Claim it to keep the data:
 
-https://neon.new/claim/01a13305-c79f-7322-adaf-8a68b87819b2
+https://neon.new/claim/01a1421b-ef74-718f-ad15-9ae125a53d88
 
 ## Stack
 

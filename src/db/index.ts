@@ -1,13 +1,10 @@
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 import * as schema from "./schema.ts";
+import { requireDatabaseUrl } from "@/lib/env";
 
 function getDatabaseUrl() {
-  const url = process.env.DATABASE_URL;
-  if (!url) {
-    throw new Error("Missing DATABASE_URL. Add a Neon connection string to .env.local.");
-  }
-  return url;
+  return requireDatabaseUrl();
 }
 
 let _db: ReturnType<typeof drizzle<typeof schema>> | undefined;
